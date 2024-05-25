@@ -1,0 +1,88 @@
+
+body{
+    background-size: 300px;
+    background-color: black;
+    display: flex;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column ;
+    color: white;
+}
+.container{
+    display: grid;
+    grid-template-columns: 300px 300px 300px;
+    grid-template-rows: 100px 100px 100px;
+}
+
+/* Add your custom styles here */
+.headContainer {
+    grid-column: 1/4;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.questionContainer {
+    margin-top: 30px;
+    grid-column: 1/2;
+    grid-row: 2/3;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;    
+    flex-direction: column ;
+    margin-bottom: 20px;
+}
+.questionContainer input{
+    margin: 2px;
+}
+#questionInput{
+    width: 100%;
+}
+#answerInput{
+    width: 100%;
+}
+#optionInput{
+    width: 100%;
+}
+
+.LowerContainer {
+    margin-top: 30px;
+    margin-left: 20px;
+    justify-content: space-around;
+    align-items: stretch;    
+    flex-direction: column ;
+    grid-column: 2/4;
+    grid-row: 2/3;
+    align-items: stretch;    
+}
+#reviewArea {
+    margin-top: 20px;
+}
+#submitAnswers{
+    display: none;
+}
+#addQuestion{
+    height: 40px;
+    width: 70%;
+}
+#reviewQuestions{    
+    height: 40px;
+    width: 70%;
+}
+#clock{
+    margin-top: 10px;
+    height: 40px;
+    width: 69%;
+    text-align: center;
+    background: black;
+    color: white;
+}
+#submitAnswers{
+    height: 20px;
+    width: 400px;
+    text-align: center;
+}
+#timerDisplay{
+    position: sticky;
+    top: 20px;
+}

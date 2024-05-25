@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Reviewer</title>
+    <link rel="stylesheet" href="fashionability.css">
+</head>
+<body>
+    <div class="container">
+        <div class="headContainer">
+        <div id="timerDisplay"> 00:00:00 </div>
+        <h1>Quiz Reviewer</h1>
+        <div id="Score"></div>
+    </div>
+    <div class="questionContainer">
+        <input type="text" id="questionInput" placeholder="Enter your question">
+        <input type="text" id="answerInput" placeholder="Enter the answer">
+        <input type="text" id="optionInput" placeholder="Enter other options">
+        <input type="text" id="optionInput" placeholder="Enter other options">
+        <input type="text" id="optionInput" placeholder="Enter other options">
+        <input type="text" id="optionInput" placeholder="Enter other options">
+        <button id="clearStorage">Clear localStorage</button>
+    </div>
+    <div class="LowerContainer">
+        <button id="addQuestion">Add Question</button>
+        <button id="reviewQuestions">Review Questions</button>
+        <div id="SetTime"><input type="number" name="timer" id="clock" placeholder="GIVE ME TIME"></div>
+        <div id="reviewArea"></div>
+        <div id="reviewArea">
+        <button id="submitAnswers">Submit Answers</button>
+        </div>
+    </div>
+    </div>
+    
+    <script src="code.js"></script>
+</body>
+</html>
