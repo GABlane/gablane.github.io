@@ -1,6 +1,4 @@
 // Function to add a question to local storage
-
-
 function addQuestion() {
     var questionInput = document.getElementById('questionInput').value;
     var answerInput = document.getElementById('answerInput').value;
@@ -38,7 +36,7 @@ function reviewQuestions() {
         questions.forEach(function(question, index) {
             var questionDiv = document.createElement('div');
             var questionText = document.createElement('p');
-            questionText.textContent = 'Q' + (index + 1) + ': ' + question.question;
+            questionText.textContent = '#' + (index + 1) + ': ' + question.question;
             questionDiv.appendChild(questionText);
 
             question.options.forEach(function(option, optIndex) {
@@ -61,29 +59,16 @@ function reviewQuestions() {
     }
     // Hide the question container when reviewing questions
     showSubmit();
-    hideClock();
-    hideAdd();
-    hideQuestionContainer();
     startTimer();
-    function startTimer() {
-        if (!isPaused)
-            return;
-        isPaused = false;
-        countdown = setInterval(() => {
-            if (timeLeft > 0) {
-                timeLeft--;
-                updateDisplay(timeLeft);
-            } else {
-                clearInterval(countdown);
-                submitAnswers(); // Call submitAnswers function when time is up
-                alert("Time's up!"); // Optionally, alert the user when time is up
-            }
-        }, 1000);
-    }
-    
+
+    // Change the LowerContainer grid column span
+    var lowerContainer = document.querySelector('.LowerContainer');
+    lowerContainer.style.gridColumn = '1 / 5';
 }
 
 function submitAnswers() {
+    var add = document.getElementById('addQuestion');
+    add.style.display = 'none';
     var questions = JSON.parse(localStorage.getItem('questions')) || [];
     var totalQuestions = questions.length;
     var correctAnswers = 0;
@@ -99,87 +84,94 @@ function submitAnswers() {
 
     var resultMessage = document.getElementById('Score');
     resultMessage.textContent = '';
-    resultMessage.textContent = 'You answered ' + correctAnswers + ' out of ' + totalQuestions + ' questions correctly. With a remaining time of ' + timeLeft + ' seconds.' ;
+    resultMessage.textContent = 'You answered ' + correctAnswers + ' out of ' + totalQuestions + ' questions correctly. With a remaining time of ' + timeLeft + ' seconds.';
     document.querySelector('.headContainer').appendChild(resultMessage);
     show();
-    hideSubmit();
-    disClock();
-    showAdd();
+    var lowerContainer = document.querySelector('.LowerContainer');
+    lowerContainer.style.gridColumn = '3 / 5';
     pauseTimer();
     var reviewArea = document.getElementById('reviewArea');
     reviewArea.innerHTML = '';
 }
 
 function showSubmit() {
+    LowerContainer = document.querySelector('.LowerContainer');
+    LowerContainer.style.gridcollumn = '1/5';
+    var reviewQuestions = document.getElementById('reviewQuestions');
+    reviewQuestions.style.display = 'none';
+    var questionContainer = document.querySelector('.questionContainer');
+    questionContainer.style.display = 'none';
+    var clear = document.getElementById('clearStorage');
+    var clock = document.getElementById('clock');
+    clock.style.display = 'none';
+    clear.style.display = 'none';
     var submitButton = document.getElementById('submitAnswers');
     submitButton.style.display = 'block';
 }
 
-function hideSubmit() {
+function show() {
+    var reviewQuestions = document.getElementById('reviewQuestions');
+    reviewQuestions.style.display = 'block';
+    var clear = document.getElementById('clearStorage');
+    var clock = document.getElementById('clock');
+    clock.style.display = 'block';
+    clear.style.display = 'block';
+    var add = document.getElementById('addQuestion');
+    add.style.display = 'block';
     var submitButton = document.getElementById('submitAnswers');
     submitButton.style.display = 'none';
-}
-
-function show() {
     var questionContainer = document.querySelector('.questionContainer');
     questionContainer.style.display = 'flex';
 }
 
-// Function to hide the question container
-function hideQuestionContainer() {
-    var questionContainer = document.querySelector('.questionContainer');
-    questionContainer.style.display = 'none';
+// Timer functions
+let countdown;
+const timerDisplay = document.getElementById('timerDisplay');
+let isPaused = true;
+let timeInput = document.getElementById('clock');
+let timeLeft = parseInt(timeInput.value) || 300;
+
+function updateDisplay(time) {
+    const hours = Math.floor((time / 3600));
+    const minutes = Math.floor((time % 3600 / 60));
+    const seconds = time % 60;
+    timerDisplay.textContent = `${String(hours).padStart(2, '0')}: ${String(minutes).padStart(2, '0')}: ${String(seconds).padStart(2, '0')}`;
 }
 
-//counter
-        let countdown;
-        const timerDisplay = document.getElementById('timerDisplay');
-        let isPaused = true;
-        let timeInput = document.getElementById('clock');
-        let timeLeft = parseInt(timeInput.value) || 300;
-        function updateDisplay(time){
-            const hours = Math.floor((time / 3600));
-            const minutes = Math.floor((time % 3600 / 60));
-            const seconds = time % 60;
-            timerDisplay.textContent = `${String(hours).padStart(2, '0')}: ${String(minutes).padStart(2, '0')}: ${String(seconds).padStart(2, '0')}`;
-        }
-        function pauseTimer() {
-            if(isPaused)
-                return;
+function pauseTimer() {
+    if (isPaused)
+        return;
+    clearInterval(countdown);
+    isPaused = true;
+}
+
+function startTimer() {
+    if (!isPaused)
+        return;
+    isPaused = false;
+    countdown = setInterval(() => {
+        if (timeLeft > 0) {
+            timeLeft--;
+            updateDisplay(timeLeft);
+        } else {
             clearInterval(countdown);
-            isPaused = true;
+            submitAnswers(); // Call submitAnswers function when time is up
+            alert("Time's up!"); // Optionally, alert the user when time is up
         }
+    }, 1000);
+}
 
-        function disClock() {
-            var submitButton = document.getElementById('clock');
-            submitButton.style.display = 'block';
-        }
-        function hideClock(){
-            var submitButton = document.getElementById('clock');
-            submitButton.style.display = 'none';
-        }
-        function showAdd(){
-            var submitButton = document.getElementById('addQuestion');
-            submitButton.style.display = 'block';
-        }
-        function hideAdd(){
-            var submitButton = document.getElementById('addQuestion');
-            submitButton.style.display = 'none';
-        }
+function clearLocalStorage() {
+    localStorage.clear();
+    alert('localStorage has been cleared.');
+}
 
-
-        function clearLocalStorage() {
-            localStorage.clear();
-            alert('localStorage has been cleared.');
-        }
-        
 // Event listeners
 document.getElementById('submitAnswers').addEventListener('click', submitAnswers);
 document.getElementById('addQuestion').addEventListener('click', addQuestion);
 document.getElementById('reviewQuestions').addEventListener('click', reviewQuestions);
 document.getElementById('clearStorage').addEventListener('click', clearLocalStorage);
-timeInput.addEventListener('input', function() {
-    timeLeft = parseInt(timeInput.value) || 300; 
+timeInput.addEventListener('input', function () {
+    timeLeft = parseInt(timeInput.value) || 300;
     updateDisplay(timeLeft);
 });
-
